@@ -39,7 +39,7 @@ if(POLICY CMP0042)
   cmake_policy(SET CMP0042 NEW)
 endif()
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules/")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/")
 
 if(MSVC)
   include(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty.inc)
@@ -311,6 +311,8 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "DragonFly")
   add_definitions(-DOS_DRAGONFLYBSD)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Android")
   add_definitions(-DOS_ANDROID)
+  #TODO: add condition for mips only architecture
+  link_libraries("-latomic")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
   add_definitions(-DWIN32 -DOS_WIN -D_MBCS -DWIN64 -DNOMINMAX)
   if(MINGW)
@@ -653,7 +655,7 @@ if(NOT WIN32 OR ROCKSDB_INSTALL_ON_WINDOWS)
   set(package_config_destination ${CMAKE_INSTALL_LIBDIR}/cmake/rocksdb)
 
   configure_package_config_file(
-    ${CMAKE_SOURCE_DIR}/cmake/RocksDBConfig.cmake.in RocksDBConfig.cmake
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake/RocksDBConfig.cmake.in RocksDBConfig.cmake
     INSTALL_DESTINATION ${package_config_destination}
   )
 
